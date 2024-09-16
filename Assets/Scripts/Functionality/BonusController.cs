@@ -28,7 +28,7 @@ public class BonusController : MonoBehaviour
     [SerializeField]
     private Transform Loose_Transform;
 
-    [Header("For Testing Purpose Only..."), Tooltip("This section is only for testing purpose only...")]
+    [Header("For Testing Purpose Only...")]
     [SerializeField]
     private int[] m_BonusChestIndices; //Testing Bonus Data To Entered In The Unity Editor
     private int m_Chest_Index_Count = 0;
@@ -63,20 +63,20 @@ public class BonusController : MonoBehaviour
     }
 
     //Get Bonus Data From Backend Through bonusData of type List<string>
-    internal void PopulateWheel(List<string> bonusdata)
-    {
-        for (int i = 0; i < bonusdata.Count; i++)
-        {
-            if (bonusdata[i] == "-1") 
-            {
-                if (Bonus_Text[i]) Bonus_Text[i].text = "NO \nBONUS";
-            }
-            else
-            {
-                if (Bonus_Text[i]) Bonus_Text[i].text = bonusdata[i];
-            }   
-        }
-    }
+    // internal void PopulateWheel(List<string> bonusdata)
+    // {
+    //     for (int i = 0; i < bonusdata.Count; i++)
+    //     {
+    //         if (bonusdata[i] == "-1") 
+    //         {
+    //             if (Bonus_Text[i]) Bonus_Text[i].text = "NO \nBONUS";
+    //         }
+    //         else
+    //         {
+    //             if (Bonus_Text[i]) Bonus_Text[i].text = bonusdata[i];
+    //         }   
+    //     }
+    // }
 
     private void OnClickOpenBonus(int indexOfChest)
     {
