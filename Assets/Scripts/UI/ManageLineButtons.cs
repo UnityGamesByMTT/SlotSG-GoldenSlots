@@ -14,13 +14,14 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 	[SerializeField]
 	private TMP_Text num_text;
 
+	[SerializeField] private int id;
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		//if (Application.platform == RuntimePlatform.WebGLPlayer && !Application.isMobilePlatform)
 		//{
 			//Debug.Log("run on pointer enter");
-			slotManager.GenerateStaticLine(num_text);
+			slotManager.GenerateStaticLine(id);
 		//}
 	}
 	public void OnPointerExit(PointerEventData eventData)
@@ -37,7 +38,7 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 		{
 			this.gameObject.GetComponent<Button>().Select();
 			//Debug.Log("run on pointer down");
-			slotManager.GenerateStaticLine(num_text);
+			slotManager.GenerateStaticLine(id);
 		}
 	}
 	public void OnPointerUp(PointerEventData eventData)

@@ -482,6 +482,8 @@ public class GameData
     public double jackpot { get; set; }
     public bool isBonus { get; set; }
     public double BonusStopIndex { get; set; }
+    public List<int> BonusResult { get; set; }
+
 }
 
 [Serializable]
@@ -556,6 +558,7 @@ public class Symbol
     public object description { get; set; }
     public int freeSpin { get; set; }
 }
+
 [Serializable]
 public class PlayerData
 {

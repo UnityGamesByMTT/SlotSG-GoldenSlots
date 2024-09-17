@@ -16,9 +16,6 @@ public class UIManager : MonoBehaviour
     private Button Menu_Button;
     [SerializeField]
     private GameObject Menu_Object;
-    [SerializeField]
-    private RectTransform Menu_RT;
-
     //[SerializeField]
     //private Button About_Button;
     //[SerializeField]
@@ -42,13 +39,9 @@ public class UIManager : MonoBehaviour
     private Button Exit_Button;
     [SerializeField]
     private GameObject Exit_Object;
-    [SerializeField]
-    private RectTransform Exit_RT;
 
     [SerializeField]
     private Button Paytable_Button;
-    [SerializeField]
-    private GameObject Paytable_Object;
     [SerializeField]
     private RectTransform Paytable_RT;
 
@@ -80,11 +73,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text[] SymbolsText;
     [SerializeField]
-    private TMP_Text FreeSpin_Text;
+    private TMP_Text Wild_Text;
     [SerializeField]
     private TMP_Text Scatter_Text;
     [SerializeField]
-    private TMP_Text Jackpot_Text;
+    private TMP_Text Bonus_Text;
 
     [Header("Settings Popup")]
     [SerializeField]
@@ -192,6 +185,7 @@ public class UIManager : MonoBehaviour
     private int FreeSpins;
     private int InfoCount = 0;
 
+    // TODO: disconnection popups
     private void Awake()
     {
         // if (Loading_Object) Loading_Object.SetActive(true);
@@ -235,11 +229,11 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
 
-        if (Menu_Button) Menu_Button.onClick.RemoveAllListeners();
-        if (Menu_Button) Menu_Button.onClick.AddListener(OpenMenu);
+        // if (Menu_Button) Menu_Button.onClick.RemoveAllListeners();
+        // if (Menu_Button) Menu_Button.onClick.AddListener(OpenMenu);
 
-        if (Exit_Button) Exit_Button.onClick.RemoveAllListeners();
-        if (Exit_Button) Exit_Button.onClick.AddListener(CloseMenu);
+        // if (Exit_Button) Exit_Button.onClick.RemoveAllListeners();
+        // if (Exit_Button) Exit_Button.onClick.AddListener(CloseMenu);
 
         //if (About_Button) About_Button.onClick.RemoveAllListeners();
         //if (About_Button) About_Button.onClick.AddListener(delegate { OpenPopup(AboutPopup_Object); });
@@ -403,45 +397,46 @@ public class UIManager : MonoBehaviour
         if (Privacy_Button) Privacy_Button.onClick.RemoveAllListeners();
         if (Privacy_Button) Privacy_Button.onClick.AddListener(delegate { UrlButtons(PrivacyUrl); });
 
-        StartCoroutine(DownloadImage(AbtImgUrl));
+        // StartCoroutine(DownloadImage(AbtImgUrl));
         PopulateSymbolsPayout(symbolsText);
     }
 
     private void PopulateSymbolsPayout(Paylines paylines)
     {
-        // for (int i = 0; i < SymbolsText.Length; i++)
-        // {
-        //     string text = null;
-        //     if (paylines.symbols[i].Multiplier[0][0] != 0)
-        //     {
-        //         text += "5x - " + paylines.symbols[i].Multiplier[0][0];
-        //     }
-        //     if (paylines.symbols[i].Multiplier[1][0] != 0)
-        //     {
-        //         text += "\n4x - " + paylines.symbols[i].Multiplier[1][0];
-        //     }
-        //     if (paylines.symbols[i].Multiplier[2][0] != 0)
-        //     {
-        //         text += "\n3x - " + paylines.symbols[i].Multiplier[2][0];
-        //     }
-        //     if (SymbolsText[i]) SymbolsText[i].text = text;
-        // }
+        for (int i = 0; i < SymbolsText.Length; i++)
+        {
+            string text = null;
+            if (paylines.symbols[i].Multiplier[0][0] != 0)
+            {
+                text += "5x - " + paylines.symbols[i].Multiplier[0][0];
+            }
+            if (paylines.symbols[i].Multiplier[1][0] != 0)
+            {
+                text += "\n4x - " + paylines.symbols[i].Multiplier[1][0];
+            }
+            if (paylines.symbols[i].Multiplier[2][0] != 0)
+            {
+                text += "\n3x - " + paylines.symbols[i].Multiplier[2][0];
+            }
+            if (SymbolsText[i]) SymbolsText[i].text = text;
+        }
 
-        // for (int i = 0; i < paylines.symbols.Count; i++)
-        // {
-        //     if (paylines.symbols[i].Name.ToUpper() == "FREESPIN")
-        //     {
-        //         if (FreeSpin_Text) FreeSpin_Text.text = "Free Spin: Activates " + paylines.symbols[i].Multiplier[0][1] + ", " + paylines.symbols[i].Multiplier[1][1] + ", or " + paylines.symbols[i].Multiplier[2][1] + " free spins when 3, 4, or 5 symbols appear on pay lines.";
-        //     }
-        //     if (paylines.symbols[i].Name.ToUpper() == "SCATTER")
-        //     {
-        //         if (Scatter_Text) Scatter_Text.text = "Scatter: Offers higher pay outs and awards " + paylines.symbols[i].Multiplier[0][1] + " free spins if 5 symbols align on the pay line with a multiplier.\nPayout: 5x - " + paylines.symbols[i].Multiplier[0][0] + ", 4x - " + paylines.symbols[i].Multiplier[1][0] + ", 3x - " + paylines.symbols[i].Multiplier[2][0];
-        //     }
-        //     if (paylines.symbols[i].Name.ToUpper() == "JACKPOT")
-        //     {
-        //         if (Jackpot_Text) Jackpot_Text.text = "Jackpot: Mega win triggered by 5 Jackpot symbols on a pay line.\nPayout: <color=yellow>" + paylines.symbols[i].defaultAmount + "x";
-        //     }
-        // }
+        for (int i = 0; i < paylines.symbols.Count; i++)
+        {
+            if (paylines.symbols[i].Name.ToUpper() == "SCATTER")
+            {
+                if (Scatter_Text) Scatter_Text.text = paylines.symbols[i].description.ToString();
+            }
+
+            if (paylines.symbols[i].Name.ToUpper() == "BONUS")
+            {
+                if (Bonus_Text) Bonus_Text.text = paylines.symbols[i].description.ToString();
+            }
+            if (paylines.symbols[i].Name.ToUpper() == "WILD")
+            {
+                if (Wild_Text) Wild_Text.text = paylines.symbols[i].description.ToString();
+            }
+        }
     }
 
     private void CallOnExitFunction()
