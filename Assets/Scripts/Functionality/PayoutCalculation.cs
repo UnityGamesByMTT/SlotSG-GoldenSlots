@@ -16,20 +16,14 @@ public class PayoutCalculation : MonoBehaviour
     {
         if (LineId >= 0)
         {
-            int m_actual_line_id = LineId;
-            // for (int i = 0; i < Pay_Line_References.Count; i++)
-            // {
-            //     if (m_actual_line_id == i)
-            //     {
-                    Debug.Log(string.Concat("<color=yellow><b>", m_hovered.ToString(), m_actual_line_id.ToString(),"</b></color>"));
-                    if (!m_hovered)
-                    {
-                        tempIds.Add(m_actual_line_id);
-                    }
-                    foreach(var _ in tempIds) { Debug.Log(string.Concat("<color=yellow><b>", tempIds, "</b></color>"));}
-                    Pay_Line_References[m_actual_line_id].SetActive(true);
-            //     }
-            // }
+            Debug.Log(string.Concat("<color=yellow><b>", m_hovered.ToString(), LineId.ToString(), "</b></color>"));
+            if (!m_hovered)
+            {
+                tempIds.Add(LineId);
+            }
+            foreach (var _ in tempIds) { Debug.Log(string.Concat("<color=yellow><b>", tempIds, "</b></color>")); }
+            Pay_Line_References[LineId].SetActive(true);
+
         }
     }
 
@@ -37,9 +31,9 @@ public class PayoutCalculation : MonoBehaviour
 
     internal void TurnOffHoverPayline()
     {
-        for(int i = 0; i < Pay_Line_References.Count; i++)
+        for (int i = 0; i < Pay_Line_References.Count; i++)
         {
-            if(!tempIds.Contains(i))
+            if (!tempIds.Contains(i))
             {
                 Pay_Line_References[i].SetActive(false);
             }

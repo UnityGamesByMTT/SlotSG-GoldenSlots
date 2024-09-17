@@ -592,10 +592,10 @@ public class UIManager : MonoBehaviour
     {
         if(m_NextPrev)
         {
-            if(InfoCount < 2)
+            if(InfoCount < m_Info_Objects.Count)
             {
                 InfoCount++;
-                if(InfoCount >= 2)
+                if(InfoCount >= m_Info_Objects.Count-1)
                 {
                     m_Info_Prev_Button.interactable = true;
                     m_Info_Next_Button.interactable = false;
@@ -625,18 +625,18 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        switch(InfoCount)
-        {
-            case 0:
-                ToggleInfoScreens(0);
-                break;
-            case 1:
-                ToggleInfoScreens(1);
-                break;
-            case 2:
-                ToggleInfoScreens(2);
-                break;
-        }
+            ToggleInfoScreens(InfoCount);
+        // switch(InfoCount)
+        // {
+        //     case 0:
+        //         break;
+        //     case 1:
+        //         ToggleInfoScreens(1);
+        //         break;
+        //     case 2:
+        //         ToggleInfoScreens(2);
+        //         break;
+        // }
     }
 
     private void ToggleInfoScreens(int toggle)

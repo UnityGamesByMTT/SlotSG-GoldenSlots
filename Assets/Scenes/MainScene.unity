@@ -4186,6 +4186,7 @@ MonoBehaviour:
   - {fileID: 1043546452}
   - {fileID: 880346450}
   - {fileID: 18674376}
+  - {fileID: 256813723}
   m_Info_Next_Button: {fileID: 616050307}
   m_Info_Prev_Button: {fileID: 835348006}
   PaytableExit_Button: {fileID: 990849630}
@@ -23598,7 +23599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotManager: {fileID: 2046803210}
   num_text: {fileID: 1503993052}
-  id: 13
+  id: 12
 --- !u!1 &1905364930
 GameObject:
   m_ObjectHideFlags: 0
@@ -24725,7 +24726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotManager: {fileID: 2046803210}
   num_text: {fileID: 1383328944}
-  id: 16
+  id: 14
 --- !u!1 &1960647874
 GameObject:
   m_ObjectHideFlags: 0
