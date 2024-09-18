@@ -11,8 +11,6 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 
 	[SerializeField]
 	private SlotBehaviour slotManager;
-	[SerializeField]
-	private TMP_Text num_text;
 
 	[SerializeField] private int id;
 

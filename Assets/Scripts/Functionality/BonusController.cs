@@ -94,6 +94,8 @@ public class BonusController : MonoBehaviour
     {
         bool value_Config = false;
         IsOpening = true;
+        double bonusAmount=multiplier * m_BonusChestIndices[m_Chest_Index_Count];
+        // TMP_Text bonusText=Win_Transform.GetChild(0).GetComponent<TMP_Text>();
         //Loop Through The References To Find The Element Of The Index
         //Checking if in the array of the possibilities it comes zero then game will get over.
 
@@ -101,12 +103,13 @@ public class BonusController : MonoBehaviour
         //Using ImageAnimation custom script to animate the chest frame by frame.
         Chest_References[indexOfChest].m_Chest_Button.GetComponent<ImageAnimation>().StartAnimation();
         //Using DOTween to animate the score on click on the chest
-        DoAnimationOnChestClick(indexOfChest, multiplier * m_BonusChestIndices[m_Chest_Index_Count]);
+        DoAnimationOnChestClick(indexOfChest, bonusAmount);
         Chest_References[indexOfChest].m_Chest_Button.interactable = false;
         //Playing the sound
         // PlayWinLooseSound(true);
-        Win_Transform.GetChild(0).GetComponent<TMP_Text>().text = (multiplier * m_BonusChestIndices[m_Chest_Index_Count]).ToString();
-        m_total_bonus += (multiplier * m_BonusChestIndices[m_Chest_Index_Count]);
+        // Win_Transform.GetChild(0).GetComponent<TMP_Text>().text = bonusAmount.ToString();
+
+        m_total_bonus += bonusAmount;
         Total_Bonus.text = string.Concat("Total Score", "\n\n", m_total_bonus.ToString());
 
         yield return new WaitForSeconds(0.5f);
@@ -180,8 +183,13 @@ public class BonusController : MonoBehaviour
     #region DOTween Animations and Reset Animations
     private void DoAnimationOnChestClick(int m_index, double m_score)
     {
-        var m_Temp_Chest = Chest_References[m_index];
+        BonusChest m_Temp_Chest = Chest_References[m_index];
+
+        if(m_score>0)
         m_Temp_Chest.m_Score.text = "+" + m_score.ToString();
+        else
+        m_Temp_Chest.m_Score.text = "Game Over";
+
         m_Temp_Chest.m_ScoreHolder.SetActive(true);
         DOTweenScale(m_Temp_Chest.m_ScoreHolder.transform, m_Temp_Chest.m_ScoreHolder.transform, 1f);
     }
@@ -190,7 +198,7 @@ public class BonusController : MonoBehaviour
     {
         m_rect_transform.DOScale
             (
-                m_obj_transform.localScale + (Vector3.one * 1f),
+                m_obj_transform.localScale + (Vector3.one * 1.2f),
                 m_time
             );
         m_rect_transform.DOLocalMoveY

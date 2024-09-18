@@ -181,11 +181,10 @@ public class UIManager : MonoBehaviour
     private bool isMusic = true;
     private bool isSound = true;
     private bool isExit = false;
-
     private int FreeSpins;
     private int InfoCount = 0;
 
-    // TODO: disconnection popups
+    //TODO: slot_disconnection popups
     private void Awake()
     {
         // if (Loading_Object) Loading_Object.SetActive(true);
@@ -625,7 +624,7 @@ public class UIManager : MonoBehaviour
             }
         }
 
-            ToggleInfoScreens(InfoCount);
+        ToggleInfoScreens(InfoCount);
         // switch(InfoCount)
         // {
         //     case 0:

@@ -14,6 +14,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource bg_audioBonus;
     [SerializeField] private AudioSource audioPlayer_Bonus;
 
+    //TODO: slot_add audio
 
     private void Start()
     {
