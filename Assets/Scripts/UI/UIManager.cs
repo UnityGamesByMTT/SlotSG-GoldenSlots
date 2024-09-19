@@ -183,12 +183,22 @@ public class UIManager : MonoBehaviour
     private bool isExit = false;
     private int FreeSpins;
     private int InfoCount = 0;
+    [SerializeField] Button m_AwakeGameButton;
 
-    //TODO: slot_disconnection popups
+    //COMPLETED: slot_disconnection popups
     private void Awake()
     {
         // if (Loading_Object) Loading_Object.SetActive(true);
         // StartCoroutine(LoadingRoutine());
+        SimulateClickByDefault();
+    }
+
+    private void SimulateClickByDefault()
+    {
+
+        Debug.Log("Awaken The Game...");
+        m_AwakeGameButton.onClick.AddListener(() => { Debug.Log("Called The Game..."); });
+        m_AwakeGameButton.onClick.Invoke();
     }
 
     private IEnumerator LoadingRoutine()
@@ -280,7 +290,7 @@ public class UIManager : MonoBehaviour
         if (CloseAD_Button) CloseAD_Button.onClick.AddListener(CallOnExitFunction);
 
         if (FreeSpin_Button) FreeSpin_Button.onClick.RemoveAllListeners();
-        if (FreeSpin_Button) FreeSpin_Button.onClick.AddListener(delegate{ StartFreeSpins(FreeSpins); });
+        if (FreeSpin_Button) FreeSpin_Button.onClick.AddListener(delegate { StartFreeSpins(FreeSpins); });
 
         if (m_Info_Next_Button) m_Info_Next_Button.onClick.RemoveAllListeners();
         if (m_Info_Next_Button) m_Info_Next_Button.onClick.AddListener(delegate { InfoNavigation(true); });
@@ -311,7 +321,7 @@ public class UIManager : MonoBehaviour
 
     internal void DisconnectionPopup(bool isReconnection)
     {
-        if(isReconnection)
+        if (isReconnection)
         {
             OpenPopup(ReconnectPopup_Object);
         }
@@ -327,7 +337,7 @@ public class UIManager : MonoBehaviour
 
     internal void PopulateWin(int value, double amount)
     {
-        switch(value)
+        switch (value)
         {
             case 1:
                 if (Win_Image) Win_Image.sprite = BigWin_Sprite;
@@ -551,15 +561,15 @@ public class UIManager : MonoBehaviour
         {
             if (SoundOn_Object) SoundOn_Object.SetActive(true);
             if (SoundOff_Object) SoundOff_Object.SetActive(false);
-            if (audioController) audioController.ToggleMute(false,"button");
-            if (audioController) audioController.ToggleMute(false,"wl");
+            if (audioController) audioController.ToggleMute(false, "button");
+            if (audioController) audioController.ToggleMute(false, "wl");
         }
         else
         {
             if (SoundOn_Object) SoundOn_Object.SetActive(false);
             if (SoundOff_Object) SoundOff_Object.SetActive(true);
-            if(audioController) audioController.ToggleMute(true,"button");
-            if (audioController) audioController.ToggleMute(true,"wl");
+            if (audioController) audioController.ToggleMute(true, "button");
+            if (audioController) audioController.ToggleMute(true, "wl");
         }
     }
 
@@ -589,12 +599,12 @@ public class UIManager : MonoBehaviour
 
     private void InfoNavigation(bool m_NextPrev)
     {
-        if(m_NextPrev)
+        if (m_NextPrev)
         {
-            if(InfoCount < m_Info_Objects.Count)
+            if (InfoCount < m_Info_Objects.Count)
             {
                 InfoCount++;
-                if(InfoCount >= m_Info_Objects.Count-1)
+                if (InfoCount >= m_Info_Objects.Count - 1)
                 {
                     m_Info_Prev_Button.interactable = true;
                     m_Info_Next_Button.interactable = false;
@@ -606,12 +616,12 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        else if(!m_NextPrev)
+        else if (!m_NextPrev)
         {
-            if(InfoCount > 0)
+            if (InfoCount > 0)
             {
-                InfoCount--;    
-                if(InfoCount <= 0)
+                InfoCount--;
+                if (InfoCount <= 0)
                 {
                     m_Info_Prev_Button.interactable = false;
                     m_Info_Next_Button.interactable = true;
@@ -640,13 +650,13 @@ public class UIManager : MonoBehaviour
 
     private void ToggleInfoScreens(int toggle)
     {
-        foreach(var _ in m_Info_Objects)
+        foreach (var _ in m_Info_Objects)
         {
             _.SetActive(false);
         }
-        for(int i = 0; i < m_Info_Objects.Count; i ++)
+        for (int i = 0; i < m_Info_Objects.Count; i++)
         {
-            if(i == toggle)
+            if (i == toggle)
             {
                 m_Info_Objects[i].SetActive(true);
             }

@@ -8,20 +8,51 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource bg_adudio;
     [SerializeField] internal AudioSource audioPlayer_wl;
     [SerializeField] internal AudioSource audioPlayer_button;
-    [SerializeField] internal AudioSource audioSpin_button;
-    [SerializeField] private AudioClip[] clips;
-    [SerializeField] private AudioClip[] Bonusclips;
-    [SerializeField] private AudioSource bg_audioBonus;
-    [SerializeField] private AudioSource audioPlayer_Bonus;
-
-    //TODO: slot_add audio
+    [SerializeField] internal AudioSource audioPlayer_Spin;
+    
+    [SerializeField] private AudioClip SpinButtonClip;
+    [SerializeField] private AudioClip SpinClip;
+    [SerializeField] private AudioClip ChestOpenClip;
+    [SerializeField] private AudioClip Button;
+    [SerializeField] private AudioClip Win_Audio;
+    [SerializeField] private AudioClip BonusWin_Audio;
+    [SerializeField] private AudioClip BonusLose_Audio;
+    [SerializeField] private AudioClip NormalBg_Audio;
+    [SerializeField] private AudioClip BonusBg_Audio;
 
     private void Start()
     {
-        if (bg_adudio) bg_adudio.Play();
-        audioPlayer_button.clip = clips[clips.Length-1];
-        audioSpin_button.clip = clips[clips.Length-2];
+        playBgAudio();
     }
+
+    internal void PlayWLAudio(string type)
+    {
+
+
+        switch (type)
+        {
+
+            case "win":
+                //index = UnityEngine.Random.Range(1, 2);
+                audioPlayer_wl.clip = Win_Audio;
+                break;
+            case "bonuswin":
+                audioPlayer_wl.clip = BonusWin_Audio;
+                break;
+            case "bonuslose":
+                audioPlayer_wl.clip = BonusLose_Audio;
+                break;
+                //index = 3;
+
+        }
+        StopWLAaudio();
+        //audioPlayer_wl.clip = clips[index];
+        //audioPlayer_wl.loop = true;
+        audioPlayer_wl.Play();
+
+    }
+
+
 
     private void OnApplicationFocus(bool focus)
     {
@@ -30,89 +61,74 @@ public class AudioController : MonoBehaviour
             bg_adudio.Pause();
             audioPlayer_wl.Pause();
             audioPlayer_button.Pause();
+            audioPlayer_Spin.Pause();
         }
         else
         {
-            if (!bg_adudio.mute) bg_adudio.Play();
-            if (!audioPlayer_wl.mute) audioPlayer_wl.Play();
-            if (!audioPlayer_button.mute) audioPlayer_button.Play();
+            if (!bg_adudio.mute) bg_adudio.UnPause();
+            if (!audioPlayer_wl.mute) audioPlayer_wl.UnPause();
+            if (!audioPlayer_button.mute) audioPlayer_button.UnPause();
+            if (!audioPlayer_Spin.mute) audioPlayer_Spin.UnPause();
 
         }
     }
 
-    internal void SwitchBGSound(bool isbonus)
+    internal void PlaySpinBonusAudio(string type = "spin")
     {
-        if(isbonus)
+
+        if (audioPlayer_Spin)
         {
-            if (bg_audioBonus) bg_audioBonus.enabled = true;
-            if (bg_adudio) bg_adudio.enabled = false;
+            if (type == "spin")
+            {
+                audioPlayer_Spin.clip = SpinClip;
+
+            }
+            else if (type == "bonus")
+            {
+
+                audioPlayer_Spin.clip = ChestOpenClip;
+
+            }
+
+
+            audioPlayer_Spin.Play();
         }
+
+    }
+
+    internal void StopSpinBonusAudio()
+    {
+
+        if (audioPlayer_Spin) audioPlayer_Spin.Stop();
+
+    }
+    internal void playBgAudio(string type = "normal")
+    {
+        //int randomIndex = UnityEngine.Random.Range(0, Bg_Audio.Length);
+        if (bg_adudio)
+        {
+            if (type == "normal")
+                bg_adudio.clip = NormalBg_Audio;
+            else if (type == "bonus")
+                bg_adudio.clip = BonusBg_Audio;
+
+            bg_adudio.Play();
+        }
+
+    }
+
+    internal void PlayButtonAudio(string type = "default")
+    {
+
+        if (type == "spin")
+            audioPlayer_button.clip = SpinButtonClip;
         else
-        {
-            if (bg_audioBonus) bg_audioBonus.enabled = false;
-            if (bg_adudio) bg_adudio.enabled = true;
-        }
-    }
+            audioPlayer_button.clip = Button;
 
-    internal void PlayWLAudio(string type)
-    {
-        audioPlayer_wl.loop = false;
-        int index = 0;
-        switch (type)
-        {
-            case "spin":
-                index = 0;
-                audioPlayer_wl.loop = true;
-                break;
-            case "win":
-                index = 1;
-                break;
-            case "lose":
-                index = 2;
-                break;
-            case "spinStop":
-                index = 3;
-                break;
-            case "megaWin":
-                index = 4;
-                break;
-        }
-        StopWLAaudio();
-        audioPlayer_wl.clip = clips[index];
-        audioPlayer_wl.Play();
-
-    }
-
-    internal void PlayBonusAudio(string type)
-    {
-        audioPlayer_wl.loop = false;
-        int index = 0;
-        switch (type)
-        {
-            case "win":
-                index = 0;
-                break;
-            case "lose":
-                index = 1;
-                break;
-            case "cycleSpin":
-                index = 2;
-                break;
-        }
-        StopBonusAaudio();
-        audioPlayer_Bonus.clip = Bonusclips[index];
-        audioPlayer_Bonus.Play();
-
-    }
-
-    internal void PlayButtonAudio()
-    {
+        //StopButtonAudio();
         audioPlayer_button.Play();
-    }
+        //Invoke("StopButtonAudio", audioPlayer_button.clip.length);
 
-    internal void PlaySpinButtonAudio()
-    {
-        audioSpin_button.Play();
     }
 
     internal void StopWLAaudio()
@@ -121,38 +137,40 @@ public class AudioController : MonoBehaviour
         audioPlayer_wl.loop = false;
     }
 
-    internal void StopBonusAaudio()
+    internal void StopButtonAudio()
     {
-        audioPlayer_Bonus.Stop();
-        audioPlayer_Bonus.loop = false;
+
+        audioPlayer_button.Stop();
+
     }
+
 
     internal void StopBgAudio()
     {
         bg_adudio.Stop();
+
     }
 
-    internal void ToggleMute(bool toggle, string type="all")
+
+    internal void ToggleMute(bool toggle, string type = "all")
     {
+
         switch (type)
         {
             case "bg":
                 bg_adudio.mute = toggle;
-                bg_audioBonus.mute = toggle;
                 break;
             case "button":
-                audioPlayer_button.mute=toggle;
-                audioSpin_button.mute=toggle;
+                audioPlayer_button.mute = toggle;
+                audioPlayer_Spin.mute = toggle;
                 break;
             case "wl":
-                audioPlayer_wl.mute=toggle;
-                audioPlayer_Bonus.mute = toggle;
+                audioPlayer_wl.mute = toggle;
                 break;
             case "all":
                 audioPlayer_wl.mute = toggle;
                 bg_adudio.mute = toggle;
                 audioPlayer_button.mute = toggle;
-                audioSpin_button.mute = toggle;
                 break;
         }
     }

@@ -59,7 +59,9 @@ public class BonusController : MonoBehaviour
         //if (PopupPanel) PopupPanel.SetActive(false);
         if (Win_Transform) Win_Transform.gameObject.SetActive(false);
         if (Loose_Transform) Loose_Transform.gameObject.SetActive(false);
-        if (_audioManager) _audioManager.SwitchBGSound(true);
+        // if (_audioManager) _audioManager.SwitchBGSound(true);
+        if(_audioManager) _audioManager.playBgAudio("bonus");
+        if(_audioManager) _audioManager.StopWLAaudio();
         if (Bonus_Object) Bonus_Object.SetActive(true);
         m_BonusChestIndices = bonusResult.ToArray();
         multiplier = mult;
@@ -94,7 +96,7 @@ public class BonusController : MonoBehaviour
     {
         bool value_Config = false;
         IsOpening = true;
-        double bonusAmount=multiplier * m_BonusChestIndices[m_Chest_Index_Count];
+        double bonusAmount = multiplier * m_BonusChestIndices[m_Chest_Index_Count];
         // TMP_Text bonusText=Win_Transform.GetChild(0).GetComponent<TMP_Text>();
         //Loop Through The References To Find The Element Of The Index
         //Checking if in the array of the possibilities it comes zero then game will get over.
@@ -137,6 +139,8 @@ public class BonusController : MonoBehaviour
     private void ResetChestBonusButtons()
     {
         Bonus_Object.SetActive(false);
+        if(_audioManager) _audioManager.playBgAudio();
+
         m_Chest_Index_Count = 0;
         m_total_bonus = 0;
         multiplier = 0;
@@ -147,6 +151,7 @@ public class BonusController : MonoBehaviour
             item.m_Chest_Button.interactable = true;
         }
         ResetToDefaultAnimationAfterChestClick();
+
     }
 
     private IEnumerator ActivateWinLooseImage(bool winLose)
@@ -170,25 +175,36 @@ public class BonusController : MonoBehaviour
 
     internal void PlayWinLooseSound(bool isWin)
     {
-        if (isWin)
-        {
-            _audioManager.PlayBonusAudio("win");
-        }
-        else
-        {
-            _audioManager.PlayBonusAudio("lose");
-        }
+        // if (isWin)
+        // {
+        //     _audioManager.PlayBonusAudio("win");
+        // }
+        // else
+        // {
+        //     _audioManager.PlayBonusAudio("lose");
+        // }
     }
 
     #region DOTween Animations and Reset Animations
     private void DoAnimationOnChestClick(int m_index, double m_score)
     {
+        if (_audioManager) _audioManager.StopWLAaudio();
+
         BonusChest m_Temp_Chest = Chest_References[m_index];
 
-        if(m_score>0)
-        m_Temp_Chest.m_Score.text = "+" + m_score.ToString();
+        if (m_score > 0)
+        {
+            m_Temp_Chest.m_Score.text = "+" + m_score.ToString();
+            if (_audioManager) _audioManager.PlayWLAudio("bonuswin");
+
+        }
         else
-        m_Temp_Chest.m_Score.text = "Game Over";
+        {
+
+            m_Temp_Chest.m_Score.text = "Game Over";
+            if (_audioManager) _audioManager.PlayWLAudio("bonuslose");
+
+        }
 
         m_Temp_Chest.m_ScoreHolder.SetActive(true);
         DOTweenScale(m_Temp_Chest.m_ScoreHolder.transform, m_Temp_Chest.m_ScoreHolder.transform, 1f);

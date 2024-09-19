@@ -150,7 +150,7 @@ public class SlotBehaviour : MonoBehaviour
     [SerializeField] private int SpaceFactor = 0;    //set this parameter according to the size of the icon and spacing
     private int numberOfSlots = 5;          //number of columns
 
-    // TODO: slot add frame
+    // COMPLETED: slot add frame
     private void Start()
     {
         IsAutoSpin = false;
@@ -549,7 +549,6 @@ public class SlotBehaviour : MonoBehaviour
     //starts the spin process
     private void StartSlots(bool autoSpin = false)
     {
-        if (audioController) audioController.PlaySpinButtonAudio();
 
         if (!autoSpin)
         {
@@ -569,7 +568,7 @@ public class SlotBehaviour : MonoBehaviour
             StopGameAnimation();
         }
         WinningsAnim(false);
-
+    
         // PayCalculator.ResetLines();
         PayCalculator.ResetAllPayLines();
         tweenroutine = StartCoroutine(TweenRoutine());
@@ -585,7 +584,8 @@ public class SlotBehaviour : MonoBehaviour
             yield return new WaitForSeconds(1);
             yield break;
         }
-        if (audioController) audioController.PlayWLAudio("spin");
+        if(audioController) audioController.StopWLAaudio();
+        if(audioController) audioController.PlaySpinBonusAudio();
 
         IsSpinning = true;
 
@@ -622,6 +622,7 @@ public class SlotBehaviour : MonoBehaviour
             yield return StopTweening(5, Slot_Transform[i], i);
         }
 
+        if(audioController) audioController.StopSpinBonusAudio();
         yield return new WaitForSeconds(0.3f);
         CheckPayoutLineBackend(SocketManager.resultData.linesToEmit, SocketManager.resultData.FinalsymbolsToEmit, SocketManager.resultData.jackpot);
         KillAllTweens();
@@ -745,7 +746,7 @@ public class SlotBehaviour : MonoBehaviour
         List<int> points_anim = null;
         if (points_AnimString.Count > 0)
         {
-
+            if(audioController) audioController.PlayWLAudio("win");
             for (int i = 0; i < points_AnimString.Count; i++)
             {
                 points_anim = points_AnimString[i]?.Split(',')?.Select(Int32.Parse)?.ToList();
