@@ -603,6 +603,7 @@ public class UIManager : MonoBehaviour
         {
             if (InfoCount < m_Info_Objects.Count)
             {
+                if(audioController) audioController.PlayButtonAudio();
                 InfoCount++;
                 if (InfoCount >= m_Info_Objects.Count - 1)
                 {
@@ -620,6 +621,7 @@ public class UIManager : MonoBehaviour
         {
             if (InfoCount > 0)
             {
+                if(audioController) audioController.PlayButtonAudio();
                 InfoCount--;
                 if (InfoCount <= 0)
                 {
