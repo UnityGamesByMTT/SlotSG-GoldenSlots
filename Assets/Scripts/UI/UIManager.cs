@@ -525,12 +525,9 @@ public class UIManager : MonoBehaviour
         ResetInfoUI();
     }
 
-    private void ResetInfoUI()
-    {
-        InfoCount = 0;
-        ToggleInfoScreens(InfoCount);
 
-    }
+
+
 
     private void ToggleMusic()
     {
@@ -605,15 +602,16 @@ public class UIManager : MonoBehaviour
             {
                 if(audioController) audioController.PlayButtonAudio();
                 InfoCount++;
+                // NextPrevButton(InfoCount);
+
                 if (InfoCount >= m_Info_Objects.Count - 1)
                 {
-                    m_Info_Prev_Button.interactable = true;
-                    m_Info_Next_Button.interactable = false;
+                    NextPrevButton(1);
                 }
                 else
                 {
-                    m_Info_Next_Button.interactable = true;
-                    m_Info_Prev_Button.interactable = true;
+                    NextPrevButton(2);
+
                 }
             }
         }
@@ -623,49 +621,71 @@ public class UIManager : MonoBehaviour
             {
                 if(audioController) audioController.PlayButtonAudio();
                 InfoCount--;
+                // NextPrevButton(InfoCount);
                 if (InfoCount <= 0)
                 {
-                    m_Info_Prev_Button.interactable = false;
-                    m_Info_Next_Button.interactable = true;
+                    // m_Info_Prev_Button.interactable = false;
+                    // m_Info_Next_Button.interactable = true;
+                    NextPrevButton(0);
+
                 }
                 else
                 {
-                    m_Info_Prev_Button.interactable = true;
-                    m_Info_Next_Button.interactable = true;
+                    NextPrevButton(2);
+
+                    // m_Info_Prev_Button.interactable = true;
+                    // m_Info_Next_Button.interactable = true;
                 }
             }
         }
 
-        ToggleInfoScreens(InfoCount);
-        // switch(InfoCount)
-        // {
-        //     case 0:
-        //         break;
-        //     case 1:
-        //         ToggleInfoScreens(1);
-        //         break;
-        //     case 2:
-        //         ToggleInfoScreens(2);
-        //         break;
-        // }
+        GoToPage(InfoCount);
+ 
     }
 
-    private void ToggleInfoScreens(int toggle)
+
+    private void GoToPage(int index)
     {
-        foreach (var _ in m_Info_Objects)
+        if(index < m_Info_Objects.Count)
         {
-            _.SetActive(false);
-        }
-        for (int i = 0; i < m_Info_Objects.Count; i++)
-        {
-            if (i == toggle)
+            for(int i = 0; i < m_Info_Objects.Count; i++)
             {
-                m_Info_Objects[i].SetActive(true);
-            }
-            else
-            {
-                m_Info_Objects[i].SetActive(false);
+                if(i == index)
+                {
+                    m_Info_Objects[i].SetActive(true);
+                }
+                else
+                {
+                    m_Info_Objects[i].SetActive(false);
+                }
             }
         }
     }
+
+    private void NextPrevButton(int m_config)
+    {
+        switch (m_config)
+        {
+            case 0:
+                m_Info_Next_Button.interactable = true;
+                m_Info_Prev_Button.interactable = false;
+                break;
+            case 1:
+                m_Info_Next_Button.interactable = false;
+                m_Info_Prev_Button.interactable = true;
+                break;
+            default:
+                m_Info_Next_Button.interactable = true;
+                m_Info_Prev_Button.interactable = true;
+                break;
+        }
+    }
+
+    private void ResetInfoUI()
+    {
+        InfoCount = 0;
+        NextPrevButton(0);
+        GoToPage(InfoCount);
+    }
+
 }
