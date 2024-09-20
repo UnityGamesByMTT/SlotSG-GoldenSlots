@@ -151,6 +151,8 @@ public class SlotBehaviour : MonoBehaviour
     private int numberOfSlots = 5;          //number of columns
 
     // COMPLETED: slot add frame
+
+    // TODO: slot icon rearranged check
     private void Start()
     {
         IsAutoSpin = false;
@@ -521,21 +523,21 @@ public class SlotBehaviour : MonoBehaviour
                 }
                 animScript.AnimationSpeed = Magnet_Sprite.Length - 7;
                 break;
-            case 11:
+            case 10:
                 for (int i = 0; i < Bonus_Sprite.Length; i++)
                 {
                     animScript.textureArray.Add(Bonus_Sprite[i]);
                 }
                 animScript.AnimationSpeed = Bonus_Sprite.Length - 7;
                 break;
-            case 10:
+            case 12:
                 for (int i = 0; i < Scatter_Sprite.Length; i++)
                 {
                     animScript.textureArray.Add(Scatter_Sprite[i]);
                 }
                 animScript.AnimationSpeed = Scatter_Sprite.Length - 7;
                 break;
-            case 12:
+            case 11:
                 for (int i = 0; i < Wild_Sprite.Length; i++)
                 {
                     animScript.textureArray.Add(Wild_Sprite[i]);

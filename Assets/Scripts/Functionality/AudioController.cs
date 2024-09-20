@@ -20,6 +20,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioClip NormalBg_Audio;
     [SerializeField] private AudioClip BonusBg_Audio;
 
+// TODO: slot add button click on next prev
     private void Start()
     {
         playBgAudio();
