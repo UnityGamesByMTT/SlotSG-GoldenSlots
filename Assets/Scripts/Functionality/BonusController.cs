@@ -112,7 +112,7 @@ public class BonusController : MonoBehaviour
         // Win_Transform.GetChild(0).GetComponent<TMP_Text>().text = bonusAmount.ToString();
 
         m_total_bonus += bonusAmount;
-        Total_Bonus.text = string.Concat("Total Score", "\n\n", m_total_bonus.ToString());
+        Total_Bonus.text = m_total_bonus.ToString();
 
         yield return new WaitForSeconds(0.5f);
         Chest_References[indexOfChest].m_Chest_Button.GetComponent<ImageAnimation>().StopAnimation();
