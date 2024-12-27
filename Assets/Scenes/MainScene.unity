@@ -6557,7 +6557,7 @@ MonoBehaviour:
   uiManager: {fileID: 377874625}
   bonusdata: []
   _jsManager: {fileID: 500036493}
-  testToken: 
+  testToken: hfjadsh
 --- !u!114 &500036493
 MonoBehaviour:
   m_ObjectHideFlags: 0
