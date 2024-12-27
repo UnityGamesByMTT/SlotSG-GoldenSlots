@@ -113,6 +113,8 @@ public class UIManager : MonoBehaviour
     private GameObject WinPopup_Object;
     [SerializeField]
     private TMP_Text Win_Text;
+    [SerializeField]
+    private Button CloseWinBtn;
 
     [Header("FreeSpins Popup")]
     [SerializeField]
@@ -289,6 +291,9 @@ public class UIManager : MonoBehaviour
         if (CloseAD_Button) CloseAD_Button.onClick.RemoveAllListeners();
         if (CloseAD_Button) CloseAD_Button.onClick.AddListener(CallOnExitFunction);
 
+        if (CloseWinBtn) CloseWinBtn.onClick.RemoveAllListeners();
+        if (CloseWinBtn) CloseWinBtn.onClick.AddListener(OnClickMegaWinHide);
+
         if (FreeSpin_Button) FreeSpin_Button.onClick.RemoveAllListeners();
         if (FreeSpin_Button) FreeSpin_Button.onClick.AddListener(delegate { StartFreeSpins(FreeSpins); });
 
@@ -355,6 +360,13 @@ public class UIManager : MonoBehaviour
 
         StartPopupAnim(amount);
     }
+    private void OnClickMegaWinHide()
+    {
+        if (WinPopup_Object) WinPopup_Object.SetActive(false);
+        if (MainPopup_Object) MainPopup_Object.SetActive(false);
+
+        slotManager.CheckPopups = false;
+    }
 
     private void StartFreeSpins(int spins)
     {
@@ -373,11 +385,14 @@ public class UIManager : MonoBehaviour
 
     private void StartPopupAnim(double amount)
     {
-        int initAmount = 0;
+        double initAmount = 0;
         if (WinPopup_Object) WinPopup_Object.SetActive(true);
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
 
-        DOTween.To(() => initAmount, (val) => initAmount = val, (int)amount, 5f).OnUpdate(() =>
+        DOTween.To(() => initAmount, (val) => initAmount = val, amount, 5f).OnUpdate(() =>
+        {
+            if (Win_Text) Win_Text.text = initAmount.ToString("f3");
+        }).OnComplete(() =>
         {
             if (Win_Text) Win_Text.text = initAmount.ToString();
         });
@@ -392,7 +407,7 @@ public class UIManager : MonoBehaviour
 
     internal void ADfunction()
     {
-        OpenPopup(ADPopup_Object); 
+        OpenPopup(ADPopup_Object);
     }
 
     internal void InitialiseUIData(string SupportUrl, string AbtImgUrl, string TermsUrl, string PrivacyUrl, Paylines symbolsText)
@@ -600,7 +615,7 @@ public class UIManager : MonoBehaviour
         {
             if (InfoCount < m_Info_Objects.Count)
             {
-                if(audioController) audioController.PlayButtonAudio();
+                if (audioController) audioController.PlayButtonAudio();
                 InfoCount++;
                 // NextPrevButton(InfoCount);
 
@@ -619,7 +634,7 @@ public class UIManager : MonoBehaviour
         {
             if (InfoCount > 0)
             {
-                if(audioController) audioController.PlayButtonAudio();
+                if (audioController) audioController.PlayButtonAudio();
                 InfoCount--;
                 // NextPrevButton(InfoCount);
                 if (InfoCount <= 0)
@@ -640,17 +655,17 @@ public class UIManager : MonoBehaviour
         }
 
         GoToPage(InfoCount);
- 
+
     }
 
 
     private void GoToPage(int index)
     {
-        if(index < m_Info_Objects.Count)
+        if (index < m_Info_Objects.Count)
         {
-            for(int i = 0; i < m_Info_Objects.Count; i++)
+            for (int i = 0; i < m_Info_Objects.Count; i++)
             {
-                if(i == index)
+                if (i == index)
                 {
                     m_Info_Objects[i].SetActive(true);
                 }
