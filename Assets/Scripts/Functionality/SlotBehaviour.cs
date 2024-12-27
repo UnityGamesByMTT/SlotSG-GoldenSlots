@@ -157,7 +157,7 @@ public class SlotBehaviour : MonoBehaviour
     private bool StopSpinToggle;
     private bool IsTurboOn;
     private bool WasAutoSpinOn;
-    
+    private Sprite turboOriginalSprite; 
 
     private int SpinCounter = 0;
     private int BetCounter = 0;
@@ -209,6 +209,7 @@ public class SlotBehaviour : MonoBehaviour
         if (Turbo_Button) Turbo_Button.onClick.AddListener(TurboToggle);
 
         tweenHeight = (16 * IconSizeFactor) - 280;
+        turboOriginalSprite = Turbo_Button.GetComponent<Image>().sprite;
     }
 
     #region Autospin
@@ -251,15 +252,13 @@ public class SlotBehaviour : MonoBehaviour
         if (IsTurboOn)
         {
             IsTurboOn = false;
-            // Turbo_Button.GetComponent<ImageAnimation>().StopAnimation();
-            // Turbo_Button.image.sprite = TurboToggleSprites[0];
-            // Turbo_Button.image.color = new Color(0.86f, 0.86f, 0.86f, 1);
+            Turbo_Button.GetComponent<ImageAnimation>().StopAnimation();
+            Turbo_Button.image.sprite = turboOriginalSprite;
         }
         else
         {
             IsTurboOn = true;
-            // Turbo_Button.GetComponent<ImageAnimation>().StartAnimation();
-            // Turbo_Button.image.color = new Color(1, 1, 1, 1);
+            Turbo_Button.GetComponent<ImageAnimation>().StartAnimation();
         }
     }
     private void TriggerPlusMinusButtons(int m_cmd)

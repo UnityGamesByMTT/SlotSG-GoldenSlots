@@ -47,7 +47,7 @@ public class SocketIOManager : MonoBehaviour
     private string testToken;
 
     // COMPLETED: slot to be changed
-    // protected string gameID = "";
+    //protected string gameID = "";
     protected string gameID = "SL-GS";
 
     internal bool isLoaded = false;
