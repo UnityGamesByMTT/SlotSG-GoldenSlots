@@ -64,6 +64,7 @@ public class BonusController : MonoBehaviour
         if(_audioManager) _audioManager.StopWLAaudio();
         if (Bonus_Object) Bonus_Object.SetActive(true);
         m_BonusChestIndices = bonusResult.ToArray();
+        //slotBehaviour.CheckPopups = true;
         multiplier = mult;
 
     }
