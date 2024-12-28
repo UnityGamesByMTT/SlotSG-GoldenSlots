@@ -157,6 +157,8 @@ public class SlotBehaviour : MonoBehaviour
     private bool StopSpinToggle;
     private bool IsTurboOn;
     private bool WasAutoSpinOn;
+    private float SpinDelay = 0.2f;
+
     private Sprite turboOriginalSprite; 
 
     private int SpinCounter = 0;
@@ -291,6 +293,7 @@ public class SlotBehaviour : MonoBehaviour
             SpinCounter_text.text = SpinCounter.ToString();
             StartSlots(IsAutoSpin);
             yield return tweenroutine;
+            yield return new WaitForSeconds(SpinDelay);
             // if (SpinCounter <= 0)
             //     IsAutoSpin = false;
         }
@@ -339,7 +342,7 @@ public class SlotBehaviour : MonoBehaviour
         {
             StartSlots(IsAutoSpin);
             yield return tweenroutine;
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(SpinDelay);
             i++;
         }
         if (WasAutoSpinOn)
@@ -672,6 +675,7 @@ public class SlotBehaviour : MonoBehaviour
 
         yield return new WaitUntil(() => SocketManager.isResultdone);
 
+        yield return new WaitForSeconds(0.9f);
         for (int j = 0; j < SocketManager.resultData.ResultReel.Count; j++)
         {
             List<int> resultnum = SocketManager.resultData.FinalResultReel[j]?.Split(',')?.Select(Int32.Parse)?.ToList();
@@ -707,7 +711,16 @@ public class SlotBehaviour : MonoBehaviour
         StopSpinToggle = false;
 
         if (audioController) audioController.StopSpinBonusAudio();
-        yield return new WaitForSeconds(0.3f);
+        yield return alltweens[^1].WaitForCompletion();
+
+        if (SocketManager.playerdata.currentWining > 0)
+        {
+            SpinDelay = 2f;
+        }
+        else
+        {
+            SpinDelay = 0.2f;
+        }
         CheckPayoutLineBackend(SocketManager.resultData.linesToEmit, SocketManager.resultData.FinalsymbolsToEmit, SocketManager.resultData.jackpot);
         KillAllTweens();
 
@@ -747,7 +760,7 @@ public class SlotBehaviour : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(2.5f);
+            //yield return new WaitForSeconds(2.5f);
             IsSpinning = false;
         }
         // if(SocketManager.resultData.freeSpins.isNewAdded)
