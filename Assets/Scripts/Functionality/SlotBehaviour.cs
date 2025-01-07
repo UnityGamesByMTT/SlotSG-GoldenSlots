@@ -220,7 +220,7 @@ public class SlotBehaviour : MonoBehaviour
     {
         if (!IsAutoSpin && !IsSpinning && SpinCounter > 0)
         {
-
+            if (audioController) audioController.PlayButtonAudio();
             IsAutoSpin = true;
             if (AutoSpinStop_Button) AutoSpinStop_Button.gameObject.SetActive(true);
             if (AutoSpin_Button) AutoSpin_Button.gameObject.SetActive(false);
@@ -239,6 +239,7 @@ public class SlotBehaviour : MonoBehaviour
     {
         if (IsAutoSpin)
         {
+            if (audioController) audioController.PlayButtonAudio();
             IsAutoSpin = false;
             SpinCounter = 0;
             SpinCounter_text.text = SpinCounter.ToString();
@@ -252,6 +253,7 @@ public class SlotBehaviour : MonoBehaviour
 
     void TurboToggle()
     {
+        if (audioController) audioController.PlayButtonAudio();
         if (IsTurboOn)
         {
             IsTurboOn = false;
@@ -631,6 +633,7 @@ public class SlotBehaviour : MonoBehaviour
         }
         WinningsAnim(false);
 
+        if (audioController) audioController.PlayButtonAudio();
         // PayCalculator.ResetLines();
         PayCalculator.ResetAllPayLines();
         tweenroutine = StartCoroutine(TweenRoutine());
@@ -694,7 +697,7 @@ public class SlotBehaviour : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 yield return new WaitForSeconds(0.1f);
                 if (StopSpinToggle)
@@ -812,7 +815,7 @@ public class SlotBehaviour : MonoBehaviour
 
         ScoreTween = DOTween.To(() => initAmount, (val) => initAmount = val, balance, 0.8f).OnUpdate(() =>
         {
-            if (Balance_text) Balance_text.text = initAmount.ToString("f2");
+            if (Balance_text) Balance_text.text = initAmount.ToString("f3");
         });
     }
 
@@ -1073,7 +1076,8 @@ public class SlotBehaviour : MonoBehaviour
 
     private IEnumerator StopTweening(int reqpos, Transform slotTransform, int index, bool isStop )
     {
-        alltweens[index].Pause();
+        alltweens[index].Kill();
+        slotTransform.localPosition = new Vector2(slotTransform.localPosition.x, 0);
         int tweenpos = (reqpos * (IconSizeFactor + SpaceFactor)) - (IconSizeFactor + (2 * SpaceFactor));
         alltweens[index] = slotTransform.DOLocalMoveY(-tweenpos + 100 + (SpaceFactor > 0 ? SpaceFactor / 4 : 0), 0.5f).SetEase(Ease.OutElastic);
         if (!isStop)
