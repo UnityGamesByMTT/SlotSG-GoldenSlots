@@ -385,6 +385,8 @@ public class UIManager : MonoBehaviour
 
     private void StartPopupAnim(double amount)
     {
+        if (PaytablePopup_Object.activeSelf) PaytablePopup_Object.SetActive(false);
+        if (SettingsPopup_Object.activeSelf) SettingsPopup_Object.SetActive(false);
         double initAmount = 0;
         if (WinPopup_Object) WinPopup_Object.SetActive(true);
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
