@@ -690,10 +690,11 @@ public class SlotBehaviour : MonoBehaviour
             }
         }
 
-        if (IsTurboOn || IsFreeSpin)                                                      // changes
+        if (IsTurboOn )                                                      // changes
         {
 
             yield return new WaitForSeconds(0.1f);
+            StopSpinToggle = true;
         }
         else
         {
@@ -719,7 +720,7 @@ public class SlotBehaviour : MonoBehaviour
 
         if (SocketManager.playerdata.currentWining > 0)
         {
-            SpinDelay = 2f;
+            SpinDelay = 1f + (SocketManager.resultData.linesToEmit.Count - 1);
         }
         else
         {
@@ -927,7 +928,15 @@ public class SlotBehaviour : MonoBehaviour
                         }
                     }
                 }
-                yield return new WaitForSeconds(1.25f);
+                if (IsAutoSpin)
+                {
+                    yield return new WaitForSeconds(1f);
+                }
+                else
+                {
+
+                    yield return new WaitForSeconds(1.25f);
+                }
                 PayCalculator.ResetAllPayLines();
                 foreach (var item in animFrame)
                 {
@@ -939,7 +948,15 @@ public class SlotBehaviour : MonoBehaviour
             }
             PayCalculator.ResetAllPayLines();
             n--;
-            yield return new WaitForSeconds(1.25f);
+            if (IsAutoSpin)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+            else
+            {
+
+                yield return new WaitForSeconds(1.25f);
+            }
         }
 
         for (int i = 0; i < LineId.Count; i++)
